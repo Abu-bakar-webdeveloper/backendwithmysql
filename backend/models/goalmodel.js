@@ -1,13 +1,27 @@
-const mongoose = require('mongoose')
+const {Sequelize, DataTypes} = require("sequelize");
+const { sequelize } = require("../config/db");
 
-const goalschema = mongoose.Schema({
-    text: {
-        type: String,
-        required: [true, 'please add a text value']
+const Student = sequelize.define("students", {
+    StudentName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    FatherName: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    RollNumber: {
+      type: DataTypes.INTEGER,
+    },
+    PhoneNumber: {
+      type: DataTypes.INTEGER,
     }
-}, {
-    timestamps: true
-}
-)
+ });
+ 
+ sequelize.sync().then(() => {
+    console.log('student table created successfully!');
+ }).catch((error) => {
+    console.error('Unable to create table : ', error);
+ });
 
-module.exports = mongoose.model('Goal', goalschema)
+module.exports = sequelize.model('students', Student)
